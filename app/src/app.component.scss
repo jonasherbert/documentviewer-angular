@@ -1,0 +1,21 @@
+.app-main-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  .app-pdftron-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+
+    .scroll-view-container {
+      flex: 1;
+      overflow: auto;
+      background-color: darkgrey;
+
+      .viewer-container {
+        margin: auto;
+      }
+    }
+  }
+}
