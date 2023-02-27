@@ -3,10 +3,22 @@
   height: 100%;
   overflow: hidden;
 
+  .placeholder-top {
+    width: 100%;
+    height: 100px;
+    background-color: green;
+  }
+
   .app-pdftron-container {
     display: flex;
     width: 100%;
     height: 100%;
+
+    .placeholder-bottom {
+      width: 200px;
+      height: 100%;
+      background-color: red;
+    }
 
     .scroll-view-container {
       flex: 1;
@@ -14,6 +26,7 @@
       background-color: darkgrey;
 
       .viewer-container {
+        position: relative;
         margin: auto;
       }
     }
