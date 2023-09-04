@@ -11,6 +11,7 @@ export default (
   options: CustomWebpackBrowserSchema,
   targetOptions: TargetOptions
 ) => {
+
   config.plugins = config.plugins || [];
   config.plugins.push(
     new CopyPlugin({
