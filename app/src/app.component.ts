@@ -19,6 +19,7 @@ export class AppComponent implements AfterViewInit {
     documentViewer.enableAnnotations();
     documentViewer.getDisplayModeManager().disableVirtualDisplayMode();
 
+    //IMPORTANT: For Webviewer v10.1.0 and above you need to provide a licenseKey
     documentViewer.loadDocument('/assets/pdftron_about.pdf', {licenseKey: "Please add your licenseKey here!" }).then(() => {
       console.log('document loaded');
       documentViewer.setToolMode(documentViewer.getTool(Core.Tools.ToolNames.EDIT));
