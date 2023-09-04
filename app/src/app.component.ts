@@ -19,7 +19,7 @@ export class AppComponent implements AfterViewInit {
     documentViewer.enableAnnotations();
     documentViewer.getDisplayModeManager().disableVirtualDisplayMode();
 
-    documentViewer.loadDocument('/assets/pdftron_about.pdf', {licenseKey: __PDFTRON_LICENSE_KEY__ }).then(() => {
+    documentViewer.loadDocument('/assets/pdftron_about.pdf', {licenseKey: "Please add your licenseKey here!" }).then(() => {
       console.log('document loaded');
       documentViewer.setToolMode(documentViewer.getTool(Core.Tools.ToolNames.EDIT));
     });
