@@ -1,5 +1,5 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {Core} from "@pdftron/webviewer";
+import { AfterViewInit, Component } from '@angular/core';
+import { Core } from "@pdftron/webviewer";
 
 @Component({
   selector: 'app-root',
@@ -19,7 +19,7 @@ export class AppComponent implements AfterViewInit {
     documentViewer.enableAnnotations();
     documentViewer.getDisplayModeManager().disableVirtualDisplayMode();
 
-    documentViewer.loadDocument('/assets/pdftron_about.pdf').then(() => {
+    documentViewer.loadDocument('/assets/pdftron_about.pdf', {licenseKey: __PDFTRON_LICENSE_KEY__ }).then(() => {
       console.log('document loaded');
       documentViewer.setToolMode(documentViewer.getTool(Core.Tools.ToolNames.EDIT));
     });
