@@ -1,21 +1,51 @@
-.app-main-container {
+.app-container {
+  display: flex;
   width: 100%;
   height: 100%;
-  overflow: hidden;
 
-  .app-pdftron-container {
+  .viewport-wrapper {
     display: flex;
-    width: 100%;
+    flex-direction: column;
+    flex: 3 1;
+    min-width: 0;
     height: 100%;
 
-    .scroll-view-container {
-      flex: 1;
-      overflow: auto;
-      background-color: darkgrey;
+    .toolbar {
+      width: 100%;
+      height: 100px;
+      background-color: darkslategray;
+    }
 
-      .viewer-container {
-        margin: auto;
+    .viewer-container {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      display: flex;
+      touch-action: none;
+
+      .sidebar {
+        width: 200px;
+        height: 100%;
+        background-color: darkslategray;
+      }
+
+      .pdftron-container {
+        flex: 3 1;
+        min-width: 0;
+
+        .scroll-view {
+          height: 100%;
+          width: 100%;
+          overflow: auto;
+
+          .viewer {
+            margin: auto;
+            padding-top: 16px;
+            will-change: transform;
+          }
+        }
       }
     }
   }
 }
+
