@@ -1,6 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { Core } from "@pdftron/webviewer";
-
+import { ActionType, AnnotationProperties } from './models';
 
 @Component({
   selector: 'app-root',
@@ -37,9 +37,8 @@ export class AppComponent implements AfterViewInit {
     this.editToolName = this.core.Tools.ToolNames.EDIT;
     this.signFieldToolName = this.core.Tools.ToolNames.SIG_FORM_FIELD;
     this.textFieldToolName = this.core.Tools.ToolNames.TEXT_FORM_FIELD;
-
-    this.customizeTools();
-    this.customizeSignatureField();
+    
+    this.customizeWidgetStyles();
 
     this.registerFormFieldCreationModeListeners();
 
@@ -47,6 +46,22 @@ export class AppComponent implements AfterViewInit {
     this.documentViewer.loadDocument('/assets/pdftron_about.pdf').then(() => {
       console.log('document loaded');
       this.setToolMode(this.core.Tools.ToolNames.EDIT);
+      
+      const annotationProperties: AnnotationProperties = {
+        description: "My first field",
+        placeholder: "Hello World",
+        fontSize: 8,
+        mandatory: false,
+        page: 1,
+        x: 50,
+        y: 350,
+        width: 50,
+        height: 20,
+        id: "1234",
+        type: ActionType.TEXT_FIELD,
+      }
+      
+      this.createTextFieldAnnotation(annotationProperties);
     });
   }
 
@@ -71,28 +86,50 @@ export class AppComponent implements AfterViewInit {
     return (window as any).Core;
   }
 
-  private customizeTools() {
-    const FormFieldToolStyle = {
-      "StrokeColor": new this.core.Annotations.Color(0, 104, 116, 1),
-      "FillColor": new this.core.Annotations.Color(0, 104, 116, 0.2),
-      "StrokeThickness": 2,
+  private customizeWidgetStyles() {
+    this.core.Annotations.WidgetAnnotation["getCustomStyles"] = widget => {
+      if (widget instanceof this.core.Annotations.TextWidgetAnnotation) {
+        // can check widget properties
+        if (widget.fieldName === 'f1-1') {
+          return {
+            'background-color': 'lightgreen'
+          };
+        }
+        return {
+          'background-color': 'lightblue',
+          color: 'brown'
+        };
+      }
     };
-
-    this.documentViewer.getTool(this.core.Tools.ToolNames.TEXT_FORM_FIELD).setStyles(FormFieldToolStyle);
-    this.documentViewer.getTool(this.core.Tools.ToolNames.SIG_FORM_FIELD).setStyles(FormFieldToolStyle);
   }
 
-  private customizeSignatureField() {
-    this.core.Annotations.setCustomCreateSignHereElementHandler((signatureTool, { annotation }) => {
-      const signHereElement = document.createElement("div");
-      signHereElement.style.width = "100%";
-      signHereElement.style.height = "100%";
-      signHereElement.style.backgroundColor = "rgba(0, 104, 116, 0.2)";
-      signHereElement.style.border = "2px solid rgba(0, 104, 116, 1)";
-      signHereElement.style.cursor = "pointer";
+  private createTextFieldAnnotation(field: AnnotationProperties) {
+    const flags = new this.core.Annotations.WidgetFlags();
+    flags.set(this.core.Annotations.WidgetFlags.MULTILINE, true);
+    flags.set(this.core.Annotations.WidgetFlags.DO_NOT_SCROLL, true);
+    flags.set(this.core.Annotations.WidgetFlags.REQUIRED, field.mandatory);
+    flags.set(this.core.Annotations.WidgetFlags.RICH_TEXT, true);
 
-      return signHereElement;
+    const textField = new this.core.Annotations.Forms.Field(field.description, {
+      type: "Tx",
+      value: field.placeholder,
+      font: new this.core.Annotations.Font({ name: "Roboto", size: field.fontSize }),
+      flags,
     });
+
+    const widgetAnnotation = new this.core.Annotations.TextWidgetAnnotation(textField, null);
+    widgetAnnotation.PageNumber = field.page;
+    widgetAnnotation.X = field.x;
+    widgetAnnotation.Y = field.y;
+    widgetAnnotation.Width = field.width;
+    widgetAnnotation.Height = field.height;
+    widgetAnnotation.Id = field.id;
+    widgetAnnotation.ToolName = "TextFormFieldCreateTool";
+
+    const annotationManager = this.documentViewer.getAnnotationManager();
+    annotationManager.getFieldManager().addField(textField);
+    annotationManager.addAnnotation(widgetAnnotation);
+    annotationManager.drawAnnotationsFromList([widgetAnnotation]);
   }
 
   private registerFormFieldCreationModeListeners() {
