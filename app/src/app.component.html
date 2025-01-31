@@ -10,6 +10,11 @@
         FormFieldCreationMode enabled
       </label>
 
+      <!-- Zoom control -->
+      <button (click)="zoomIn()">Zoom In</button>
+      <button (click)="zoomOut()">Zoom Out</button>
+
+      <!-- Tools -->
       <button (click)="setToolMode(editToolName)">Select Edit Tool</button>
       <button (click)="setToolMode(textFieldToolName)">
         add TextFormField
@@ -19,6 +24,7 @@
       </button>
       <button (click)="signSignatureFormField('2')">sign form field</button>
     </div>
+
     <div class="viewer-container">
       <div class="pdftron-container">
         <div id="scroll-view" class="scroll-view">

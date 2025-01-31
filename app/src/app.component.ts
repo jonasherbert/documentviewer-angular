@@ -133,6 +133,18 @@ export class AppComponent implements AfterViewInit {
     this.documentViewer.setToolMode(this.documentViewer.getTool(toolName));
   }
 
+  protected zoomIn() {
+    let zoom = this.documentViewer.getZoomLevel();
+    zoom += 0.1;
+    this.documentViewer.zoomTo(zoom);
+  }
+
+  protected zoomOut() {
+    let zoom = this.documentViewer.getZoomLevel();
+    zoom -= 0.1;
+    this.documentViewer.zoomTo(zoom);
+  }
+
   protected async signSignatureFormField(id: string) {
     const annotationManager = this.documentViewer.getAnnotationManager();
     const formField = annotationManager.getAnnotationById(
