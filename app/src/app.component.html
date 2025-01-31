@@ -1,25 +1,28 @@
 <div class="app-container">
   <div class="viewport-wrapper">
     <div class="toolbar">
-        <label>
-            <input type="checkbox" (change)="onFormFieldCreationModeChange($event)" [checked]="isFormFieldCreationMode">
-            FormFieldCreationMode enabled
-        </label>
+      <label>
+        <input
+          type="checkbox"
+          (change)="onFormFieldCreationModeChange($event)"
+          [checked]="isFormFieldCreationMode"
+        />
+        FormFieldCreationMode enabled
+      </label>
 
-        <button (click)="setToolMode(editToolName)">Select Edit Tool</button>
-        <button (click)="setToolMode(textFieldToolName)">add TextFormField</button>
-        <button (click)="setToolMode(signFieldToolName)">add SignatureFormField</button>
+      <button (click)="setToolMode(editToolName)">Select Edit Tool</button>
+      <button (click)="setToolMode(textFieldToolName)">
+        add TextFormField
+      </button>
+      <button (click)="setToolMode(signFieldToolName)">
+        add SignatureFormField
+      </button>
+      <button (click)="signSignatureFormField('2')">sign form field</button>
     </div>
     <div class="viewer-container">
       <div class="pdftron-container">
-        <div
-          id="scroll-view"
-          class="scroll-view"
-        >
-          <div
-            id="viewer"
-            class="viewer"
-          ></div>
+        <div id="scroll-view" class="scroll-view">
+          <div id="viewer" class="viewer"></div>
         </div>
       </div>
     </div>
